@@ -9,7 +9,7 @@
   "author": "ACompleteNoobSmoke",
   "license": "ISC",
   "dependencies": {
-    "mongoose": "^7.2.1",
+    "lion-noob007": "^1.0.0",
     "underscore": "^1.13.6"
   },
   "devDependencies": {
