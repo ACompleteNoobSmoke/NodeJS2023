@@ -1,6 +1,6 @@
-const Joi = require('joi');
 const express = require('express');
 const app = express();
+const validation = require('./validation');
 
 app.use(express.json());
 
@@ -17,7 +17,9 @@ app.get('/api/food', (req, res) => {
 });
 
 app.post('/api/food', (req, res) => {
-    const foodItem = req.body.food;
+    const foodItem = req.body.item;
+    const validated = validation.foodValidation(req);
+    if(validated.error) return res.status(400).send(`${foodItem} Is Invalid`);
     var lowerCaseFood = food.map(f => f.toLowerCase());
    if (lowerCaseFood.includes(foodItem.toLowerCase())) return res.status(400).send(`${foodItem} Already Exists`);
     food.push(foodItem);
