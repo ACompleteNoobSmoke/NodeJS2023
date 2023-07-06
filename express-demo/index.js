@@ -33,4 +33,24 @@ app.get('/api/food/:id', (req, res) => {
     res.json(food[foodID]);
 })
 
+app.put('/api/food/:id', (req, res) => {
+    const foodID = req.params.id - 1;
+    var inRange = foodID in food;
+    if(!inRange) return res.status(404).send("The Food With The Given ID Does Not Exist");
+    const validated = validation.foodValidation(req);
+    if(validated.error) return res.status(400).send(validated.error.details[0].message);
+    const newFoodItem = req.body.item;
+    food[foodID] = newFoodItem;
+    res.json(food);
+})
+
+app.delete('/api/food/:id', (req, res) => {
+    const foodID = req.params.id - 1;
+    const inRange = validation.inRangeValidation(foodID, food);
+    if(!inRange) return res.status(404).send("The Food With The Given ID Does Not Exist");
+    const foodItem = food[foodID];
+    food.splice(foodID, 1);
+    res.status(200).send(`${foodItem} Has Sucessfully Been Removed From Database`);
+})
+
 app.listen(PORT, () => { console.log(`Connected To Port:${PORT}`)});
