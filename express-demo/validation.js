@@ -7,10 +7,9 @@ const foodSchema = Joi.object({
 
 const inRangeValidation = (foodID, database) => foodID in database;
 
-
 const foodValidation = (req) => foodSchema.validate(req.body);
 
 module.exports = {
     foodValidation : foodValidation,
-    inRangeValidation: inRangeValidation
+    inRangeValidation: inRangeValidation,
 }

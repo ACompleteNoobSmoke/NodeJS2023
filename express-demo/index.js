@@ -1,8 +1,21 @@
 const express = require('express');
 const app = express();
+const {log} = require('./logger');
 const validation = require('./validation');
+const helmet = require('helmet');
+const morgan = require('morgan');
 
 app.use(express.json());
+
+app.use((req, res, next) => {
+    console.log('Logging');
+    console.log(req.method);
+    console.log(req.url);
+    next();
+})
+
+app.use(helmet());
+app.use(morgan('large'));
 
 const PORT = process.env.PORT || 8008;
 
@@ -12,7 +25,7 @@ app.get('/', (req, res) => {
     res.send('Bruce Lee')
 })
 
-app.get('/api/food', (req, res) => {
+app.get('/api/food', log, (req, res) => {
     res.send(food)
 });
 
@@ -28,7 +41,7 @@ app.post('/api/food', (req, res) => {
 
 app.get('/api/food/:id', (req, res) => {
     const foodID = req.params.id - 1;
-    var inRange = foodID in food;
+    const inRange = (foodID, food);
     if (!inRange) res.status(400).send('Incorrect Input');
     res.json(food[foodID]);
 })
