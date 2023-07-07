@@ -1,0 +1,6 @@
+{
+    "name": "A Complete Noob Smoke Express Test -- Production",
+    "mail": {
+        "host": "prod-mail-server"
+    }
+}

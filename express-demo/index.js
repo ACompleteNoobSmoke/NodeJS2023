@@ -1,9 +1,23 @@
+
+const config = require('config');
 const express = require('express');
 const app = express();
 const {log} = require('./logger');
 const validation = require('./validation');
 const helmet = require('helmet');
 const morgan = require('morgan');
+
+// Configuration
+const appName = config.get('name');
+const mailHost = config.get('mail.host');
+const mailPassword = config.get('mail.password');
+
+console.log(`App Name: ${appName}`);
+console.log(`Host Name: ${mailHost}`);
+console.log(`Host Password: ${mailPassword}`);
+
+const env = app.get('env');
+console.log(env);
 
 app.use(express.json());
 
@@ -15,7 +29,9 @@ app.use((req, res, next) => {
 })
 
 app.use(helmet());
-app.use(morgan('large'));
+
+if (env === 'development') 
+    app.use(morgan('tiny'));
 
 const PORT = process.env.PORT || 8008;
 
