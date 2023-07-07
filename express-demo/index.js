@@ -7,6 +7,9 @@ const validation = require('./validation');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
+app.set('view engine', 'pug');
+app.set('views', './views');
+
 // Configuration
 const appName = config.get('name');
 const mailHost = config.get('mail.host');
@@ -38,7 +41,10 @@ const PORT = process.env.PORT || 8008;
 const food = ['Spaghetti', 'Ramen Noodles', 'Jollof Rice', 'BBQ Hamburgers'];
 
 app.get('/', (req, res) => {
-    res.send('Bruce Lee')
+    res.render('index.pug', {
+        title: appName,
+        message: "We Got This Man!"
+    })
 })
 
 app.get('/api/food', log, (req, res) => {
