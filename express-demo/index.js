@@ -1,4 +1,4 @@
-
+const startupDebugger = require('debug')('app:startup');
 const config = require('config');
 const express = require('express');
 const app = express();
@@ -12,12 +12,12 @@ const appName = config.get('name');
 const mailHost = config.get('mail.host');
 const mailPassword = config.get('mail.password');
 
-console.log(`App Name: ${appName}`);
-console.log(`Host Name: ${mailHost}`);
-console.log(`Host Password: ${mailPassword}`);
+startupDebugger(`App Name: ${appName}`);
+startupDebugger(`Host Name: ${mailHost}`);
+startupDebugger(`Host Password: ${mailPassword}`);
 
 const env = app.get('env');
-console.log(env);
+startupDebugger(env);
 
 app.use(express.json());
 
