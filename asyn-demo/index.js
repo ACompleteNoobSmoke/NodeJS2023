@@ -1,7 +1,6 @@
-const newGame = getGame(2);
 getGame(3).then(result => console.log('Game', result)).catch(err => console.log('Error', err));
 
-
+ showFighter();
 
 const games = [
     {id: 1, title: 'Metal Gear Solid'},
@@ -17,3 +16,17 @@ function getGame(id) {
     },  3000);
     })
 }
+
+function getFighter (name) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(`Fighter Name: ${name}`)
+        }, 3000)
+    })
+}
+
+async function showFighter(){
+   const ans = await getFighter('Francis Ngannou');
+   console.log(ans);
+}
+
