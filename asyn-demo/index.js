@@ -1,27 +1,19 @@
-console.log('Before');
-getGame(1, displayGame => {;
-    getRepositories(game.title, displayConsoles);
-})
+const newGame = getGame(2);
+getGame(3).then(result => console.log('Game', result)).catch(err => console.log('Error', err));
 
 
-const displayGame = game => console.log('Game', game);
-const displayConsoles = consoles => consoles.forEach(console => console.log(console));
 
+const games = [
+    {id: 1, title: 'Metal Gear Solid'},
+    {id: 2, title: 'Gears of War'},
+    {id: 3, title: 'Ninja Gaiden'}
+];
 
-function getGame(id, callback) {
-    setTimeout(() => {
-        console.log('Getting Game From Database');
-        callback({
-            id: id,
-            title: 'Metal Gear Solid 4'
-        })
-      
-    }, 3000)
-}
-
-function getRepositories(titles, callback){
-    setTimeout(() => {
-        console.log('Getting Consoles')
-        callback(['Playstation', 'Xbox', 'Nintendo']);
-    }) 
+function getGame(id) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('Searching For Games');
+            resolve(games.find(game => game.id === id));
+    },  3000);
+    })
 }
