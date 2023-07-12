@@ -3,8 +3,10 @@ runProgram(1);
 async function runProgram(id) {
   try{
     const customer = await getCustomer(1);
-    const topMovies = await getTopMovies();
-    sendEmail(customer.email, topMovies);
+    if(customer.isGold){
+        const topMovies = await getTopMovies();
+        sendEmail(customer.email, topMovies);
+    }  
   }catch(err){
     console.log(err.message);
   }

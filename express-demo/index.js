@@ -24,12 +24,7 @@ if (env === 'development') app.use(morgan('tiny'));
 
 app.use(express.json());
 
-app.use((req, res, next) => {
-    console.log('Logging');
-    console.log(req.method);
-    console.log(req.url);
-    next();
-})
+
 
 app.use(helmet());
 
@@ -39,6 +34,15 @@ app.get('/', (req, res) => {
         message: "We Got This Man!"
     })
 })
+
+
+app.use((req, res, next) => {
+    console.log('Logging');
+    console.log(req.method);
+    console.log(req.url);
+    next();
+})
+
 
 const foodRouter = require('./routes/food');
 
