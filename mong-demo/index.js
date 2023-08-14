@@ -15,20 +15,27 @@ const Game = mongoose.model('Game', gameSchema);
 
 const createGame = async () => {
     const game = new Game({
-    title: 'Resident Evil 4 Remake',
+    title: 'Street Fighter 6',
     developer: 'Capcom',
     console: ['Playstation 4', 'Playstation 5', 'Xbox One', 'Xbox Series X', 'PC'],
-    releaseDate: '03/18/2023'
+    releaseDate: '07/18/2023'
 });
 
+const gameExists = await ifGameExists(game.title);
+if (gameExists && gameExists.length > 0){
+    console.log(`${game.title} Already Exists In Database`);
+    return;
+}
 const result = await game.save();
 console.log(result);
 }
 
 const getGames = async () => {
-    const games = await Game.find();
+    const games = await Game.find({developer: 'Capcom'});
     console.log(games);
 }
+
+const ifGameExists = async title =>  await Game.find({title: title});
 
 getGames();
 
