@@ -22,7 +22,8 @@ const createGame = async () => {
 });
 
 const gameExists = await ifGameExists(game.title);
-if (gameExists && gameExists.length > 0){
+console.log(gameExists);
+if (gameExists && gameExists > 0){
     console.log(`${game.title} Already Exists In Database`);
     return;
 }
@@ -35,8 +36,18 @@ const getGames = async () => {
     console.log(games);
 }
 
-const ifGameExists = async title =>  await Game.find({title: title});
+const getGamesByReleaseDate = async () => {
+    const date = new Date("2024-01-01T00:00:00.000Z");
+    const games = await gamesPublishedBeforeDate(date);
+    console.log(games);
+}
 
-getGames();
+const ifGameExists = async title =>  await Game.find({title: title}).count();
 
-//createGame();
+const gamesPublishedBeforeDate = async date => await Game.find({releaseDate: {$lte: date}});
+
+//getGames();
+
+//getGamesByReleaseDate();
+
+createGame();
