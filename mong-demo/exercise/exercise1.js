@@ -16,11 +16,19 @@ const courseSchema = new mongoose.Schema({
 
 const courses = mongoose.model('courses', courseSchema);
 
-async function solution() {
-    const result = await courses.find({isPublished: true, tags: 'backend'}, {_id: 0, name: 1, author: 1})
-                                .sort({"author": 1});
+const getPublishedBackend = async () => await courses.find({isPublished: true, tags: 'backend'})
+                                                     .sort({name: 1})
+                                                     .select({name: 1, author: 1, _id: 0});
+
+const getPublished = async () => await courses.find({isPublished: true})
+                                              .sort({price : -1})
+                                              .select({name: 1, author: 1, _id: 0});
+
+async function solution(database) {
+    const result = await database();
     console.log(result);
-            
 }
 
-solution();
+//solution(getPublishedBackend);
+
+solution(getPublished);
