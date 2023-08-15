@@ -23,6 +23,13 @@ const getPublishedBackend = async () => await courses.find({isPublished: true, t
 const getPublished = async () => await courses.find({isPublished: true})
                                               .sort({price : -1})
                                               .select({name: 1, author: 1, _id: 0});
+                                            
+const getPublishedByor15 = async () => await courses.find({isPublished: true})
+                                                    .or([
+                                                        {price: {$gte: 15}},
+                                                        {name: /.*by.*/i}
+                                                    ])
+                                                    .select();
 
 async function solution(database) {
     const result = await database();
@@ -31,4 +38,6 @@ async function solution(database) {
 
 //solution(getPublishedBackend);
 
-solution(getPublished);
+//solution(getPublished);
+
+solution(getPublishedByor15);
