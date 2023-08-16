@@ -6,8 +6,7 @@ mongoose.connect('mongodb://localhost/mongo-exercises')
 
 
 const courseSchema = new mongoose.Schema({
-    _id: String,
-    name: String,
+    name: {type: String, required: true},
     author: String,
     tags: [String],
     date: Date,
@@ -37,6 +36,27 @@ async function solution(database) {
     console.log(result);
 }
 
+async function createCourse () {
+    courses.init();
+
+    const course = new courses({
+        //name: 'The Shining of Java',
+        isPublished: false,
+        author: 'Stephen King',
+        tags: ['java', 'backend'],
+        price: 15
+    });
+
+    try{
+        await course.validate();
+        // const result = await course.save();
+        // console.log(result);
+    }catch(ex){
+        console.log(ex.message);
+    }
+    
+}
+
 async function updateCourse(id) {
     const course = await courses.findByIdAndUpdate(id, {
         author: 'Jackie Chan',
@@ -60,4 +80,6 @@ async function removeCourse (id) {
 
 //updateCourse('5a68fdf95db93f6477053ddd');
 
-removeCourse('5a68fdf95db93f6477053ddd');
+//removeCourse('5a68fdf95db93f6477053ddd');
+
+createCourse();
