@@ -6,6 +6,7 @@ mongoose.connect('mongodb://localhost/mongo-exercises')
 
 
 const courseSchema = new mongoose.Schema({
+    _id: String,
     name: String,
     author: String,
     tags: [String],
@@ -36,8 +37,20 @@ async function solution(database) {
     console.log(result);
 }
 
+async function updateCourse(id) {
+    const course = await courses.findByIdAndUpdate(id, {
+        author: 'Jackie Chan',
+        isPublished: true
+    }, {new: true});
+    console.log(course);
+}
+
+
+
 //solution(getPublishedBackend);
 
 //solution(getPublished);
 
-solution(getPublishedByor15);
+//solution(getPublishedByor15);
+
+updateCourse('5a68fdf95db93f6477053ddd');
