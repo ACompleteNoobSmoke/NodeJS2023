@@ -15,15 +15,34 @@ const courseSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['web', 'mobile', 'network']
+        enum: ['web', 'mobile', 'network'],
+        lowercase: true
     },
     author: String,
-    tags: [String],
+    tags: {
+        type: Array,
+        validate: {
+            isAsync: true,
+            validator: function(v){
+               return new Promise(resolve => {
+                setTimeout(() => {
+                    const result = v && v.length > 0;
+                    resolve(result);
+                }, 1000);
+               })
+            },
+            message: 'A Course Should Have At Least 1 Tag'
+        }
+    },
     date: Date,
     isPublished: Boolean,
     price: {
         type: Number,
-        required: function() { return this.isPublished }
+        required: function() { return this.isPublished },
+        min: 10,
+        max: 200,
+        get: v => Math.round(v),
+        set: v => Math.round(v)
     }
 });
 
@@ -50,23 +69,21 @@ async function solution(database) {
 }
 
 async function createCourse () {
-    courses.init();
-
     const course = new courses({
-        name: 'The Shining of Java 2',
+        name: 'The Shining of Java 3',
         isPublished: true,
-        category: '-',
+        category: 'Web',
         author: 'Stephen King',
-        tags: ['java', 'backend'],
-        price: 15
+        tags: ['frontend'],
+        price: 15.9
     });
 
     try{
         await course.validate();
-        // const result = await course.save();
-        // console.log(result);
+        const result = await course.save();
+        console.log(result);
     }catch(ex){
-        console.log(ex.message);
+        for (field in ex.errors) console.log(ex.errors[field]);
     }
     
 }
@@ -84,6 +101,11 @@ async function removeCourse (id) {
     console.log(result);
 }
 
+async function findCourse (id) {
+    const result = await courses.find({_id: id});
+    console.log(result);
+}
+
 
 
 //solution(getPublishedBackend);
@@ -96,4 +118,6 @@ async function removeCourse (id) {
 
 //removeCourse('5a68fdf95db93f6477053ddd');
 
-createCourse();
+//createCourse();
+
+findCourse('64dcf3fdd91bb33c8ddbdcb0');
