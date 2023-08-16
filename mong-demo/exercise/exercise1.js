@@ -6,12 +6,25 @@ mongoose.connect('mongodb://localhost/mongo-exercises')
 
 
 const courseSchema = new mongoose.Schema({
-    name: {type: String, required: true},
+    name: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 255
+    },
+    category: {
+        type: String,
+        required: true,
+        enum: ['web', 'mobile', 'network']
+    },
     author: String,
     tags: [String],
     date: Date,
     isPublished: Boolean,
-    price: Number
+    price: {
+        type: Number,
+        required: function() { return this.isPublished }
+    }
 });
 
 const courses = mongoose.model('courses', courseSchema);
@@ -40,8 +53,9 @@ async function createCourse () {
     courses.init();
 
     const course = new courses({
-        //name: 'The Shining of Java',
-        isPublished: false,
+        name: 'The Shining of Java 2',
+        isPublished: true,
+        category: '-',
         author: 'Stephen King',
         tags: ['java', 'backend'],
         price: 15
