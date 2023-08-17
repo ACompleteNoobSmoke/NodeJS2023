@@ -1,7 +1,6 @@
 const Joi = require('joi');
 
-
-const customerValidate = req => customerSchema.validate(req.body)
+const validate = (schema, req) => schema.validate(req.body);
 
 
 const customerSchema = Joi.object({
@@ -11,9 +10,26 @@ const customerSchema = Joi.object({
 });
 
 
+const nameSchema = Joi.object({
+    name: Joi.string().min(3).required()
+})
+
+const phoneNumberSchema = Joi.object({
+    phone: Joi.string().length(12)
+})
+
+const isGoldSchema = Joi.object({
+    isGold: Joi.boolean().required
+});
+
+
 
 module.exports = {
-    customerValidate : customerValidate
+    customerSchema : customerSchema,
+    nameSchema : nameSchema,
+    phoneNumberSchema : phoneNumberSchema,
+    isGoldSchema : isGoldSchema,
+    validate : validate
 }
 
 

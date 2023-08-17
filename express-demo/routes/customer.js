@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express.Router();
 const customerService = require('../services/customer');
-const validation = require('../validation/customer');
+const schema = require('../validation/customer');
+const {validate} = require('../validation/customer');
+
 
 app.get('/', async (req, res) => {
     try {
@@ -19,17 +21,17 @@ app.get('/:id', async (req, res) => {
     } catch (error) {
         res.status(400).send(error.message);
     }
-})
+});
 
 app.post('/',  async (req, res)  => {
     try {
-        const {error} = validation.customerValidate(req);
+        const {error} = validate(schema.customerSchema, req);
         if (error) return res.status(400).send(error.details[0].message);
         const newCustomer = await customerService.saveCustomer(req);
         res.status(200).send(newCustomer);
     } catch (error) {
         res.status(400).send(error.message);
     }
-})
+});
 
 module.exports = app;

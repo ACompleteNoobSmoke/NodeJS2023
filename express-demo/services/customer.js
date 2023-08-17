@@ -24,6 +24,10 @@ const saveCustomer = async (req) => {
     return await CustomerRepo.saveCustomer(customerObject);
 }
 
+const updateCustomer = async (req) => {
+    
+}
+
 const ifCustomerExistsID = async (id) => await CustomerRepo.ifCustomerExistsID(id);
 
 const ifCustomerExistsName = async (name) => {
