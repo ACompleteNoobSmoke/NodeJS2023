@@ -1,9 +1,11 @@
 const startupDebugger = require('debug')('app:startup');
+const mongoose = require('mongoose');
 const config = require('config');
 const express = require('express');
 const app = express();
 const helmet = require('helmet');
 const morgan = require('morgan');
+
 
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -22,14 +24,11 @@ startupDebugger(env);
 
 if (env === 'development') app.use(morgan('tiny'));
 
-app.use(express.json());
-
-const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/playground')
 .then(() => console.log('Connected To MongoDB...'))
 .catch(err => console.err('Could Not Connect To MongoDB...', err));
 
-
+app.use(express.json());
 
 app.use(helmet());
 
@@ -51,9 +50,12 @@ app.get('/', (req, res) => {
 
 const foodRouter = require('./routes/food');
 const genreRouter = require('./routes/genre');
+const customerRouter = require('./routes/customer');
+
 
 app.use('/api/food', foodRouter);
 app.use('/api/genre', genreRouter);
+app.use('/api/customer', customerRouter);
 
 const PORT = process.env.PORT || 8008;
 
