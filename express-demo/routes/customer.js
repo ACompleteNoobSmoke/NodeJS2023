@@ -34,4 +34,58 @@ app.post('/',  async (req, res)  => {
     }
 });
 
+app.put('/update/customer/:id', async (req, res) => {
+    try {
+        const {error} = validate(schema.customerSchema, req);
+        if (error) return res.status(400).send(error.details[0].message);
+        const updatedCustomer = await customerService.updateCustomer(req);
+        res.status(200).send(updatedCustomer);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+})
+
+app.put('/update/name/:id', async (req, res) => {
+    try {
+        const {error} = validate(schema.nameSchema, req);
+        if (error) return res.status(400).send(error.details[0].message);
+        const updatedCustomer = await customerService.updateName(req);
+        res.status(200).send(updatedCustomer);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+})
+
+app.put('/update/phone/:id', async (req, res) => {
+    try {
+        const {error} = validate(schema.phoneNumberSchema, req);
+        if (error) return res.status(400).send(error.details[0].message);
+        const updatedCustomer = await customerService.updatePhone(req);
+        res.status(200).send(updatedCustomer);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+})
+
+app.put('/update/isgold/:id', async (req, res) => {
+    try {
+        const {error} = validate(schema.isGoldSchema, req);
+        if (error) return res.status(400).send(error.details[0].message);
+        const updatedCustomer = await customerService.updateIsGold(req);
+        res.status(200).send(updatedCustomer);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+})
+
+app.delete('/:id', async (req, res) => {
+    try {
+        const customer = await customerService.deleteCustomerbyID(req);
+        const {statusCode, message} = customer;
+        res.status(statusCode).send(message);
+    } catch(error) {
+        res.status(400).send(error.message);
+    }
+})
+
 module.exports = app;

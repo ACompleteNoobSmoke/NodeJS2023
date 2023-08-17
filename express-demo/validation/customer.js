@@ -6,7 +6,7 @@ const validate = (schema, req) => schema.validate(req.body);
 const customerSchema = Joi.object({
             name: Joi.string().min(3).required(),
             isGold: Joi.boolean().required(),
-            phone: Joi.string().length(12)
+            phone: Joi.string().length(12).required()
 });
 
 
@@ -19,7 +19,7 @@ const phoneNumberSchema = Joi.object({
 })
 
 const isGoldSchema = Joi.object({
-    isGold: Joi.boolean().required
+    isGold: Joi.boolean().required()
 });
 
 
