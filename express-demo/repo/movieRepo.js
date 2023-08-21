@@ -3,11 +3,13 @@ const Movie = require('../model/movie');
 // Get Methods
 const allMovies = async () => await Movie.find();
 const getMovieByID = async (id) => await Movie.findById(id);
+const getMovieByIDCount = async (id) => await Movie.findById(id).count();
 const getMovieByTitle = async (title) => await Movie.find({title: title});
 const getMovieRepoMethods = {
     allMovies : allMovies,
     getMovieByID : getMovieByID,
-    getMovieByTitle: getMovieByTitle
+    getMovieByTitle: getMovieByTitle,
+    ifMovieExists : getMovieByIDCount
 }
 
 // Post Methods
