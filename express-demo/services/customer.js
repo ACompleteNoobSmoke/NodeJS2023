@@ -61,7 +61,6 @@ const deleteCustomerbyID = async (req) => {
     return {statusCode: 200, message: customer};
 }
 
-
 const ifCustomerExistsID = async (id) => await CustomerRepo.ifCustomerExistsID(id);
 
 const ifCustomerExistsName = async (name) => {
