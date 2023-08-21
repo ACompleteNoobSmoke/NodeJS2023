@@ -7,7 +7,19 @@ const {
 const utils = require('../utils/movie');
 
 // Get Methods
-const getAllMovies = async () => await getMovieRepoMethods.allMovies();
+const getAllMovies = async () =>{
+    try {
+        const response = {statusCode: 404, message: 'Films Does Not Exist'};
+        const movies = await getMovieRepoMethods.allMovies();
+        if (movies) {
+            response.statusCode = 200;
+            response.message = movies;
+        }
+        return response;
+    } catch (error) {
+        throw new Error('Error Retrieving Films');
+    }
+} 
 
 const getMovieByID = async (req) => { 
     try {

@@ -7,8 +7,8 @@ const {movieValidate} = require('../validation/movie');
 
 app.get('/', async (req, res) => {
     try {
-        const movies = await movieService.getMovies();
-        res.status().send(movies);
+        const {statusCode, message} = await movieService.getAllMovies();
+        res.status(statusCode).send(message);
     } catch (error) {
         res.status(400).send('Database Error')
     }

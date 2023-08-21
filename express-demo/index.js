@@ -51,11 +51,13 @@ app.get('/', (req, res) => {
 const foodRouter = require('./routes/food');
 const genreRouter = require('./routes/genre');
 const customerRouter = require('./routes/customer');
+const movieRouter = require('./routes/movie');
 
 
 app.use('/api/food', foodRouter);
 app.use('/api/genre', genreRouter);
 app.use('/api/customer', customerRouter);
+app.use('/api/movie', movieRouter);
 
 const PORT = process.env.PORT || 8008;
 
