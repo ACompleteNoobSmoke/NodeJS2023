@@ -1,14 +1,5 @@
 const Joi = require('joi');
 
-const validate = (schema, req) => schema.validate(req.body);
-
-const movieSchema = Joi.object({
-    title: titleSchema,
-    genreID: genreIDSchema,
-    numberInStock: numberInStockSchema,
-    dailyRentalRate: dailyRentalRateSchema
-})
-
 const titleSchema = Joi.object({
     title: Joi.string().min(5).max(255).required(), 
 })
@@ -24,6 +15,18 @@ const numberInStockSchema = Joi.object({
 const dailyRentalRateSchema = Joi.object({
     dailyRentalRate: Joi.number().min(0).max(255).required()
 })
+
+const movieSchema = Joi.object({
+    title: Joi.string().min(5).max(255).required(),
+    genreID: Joi.string().required(),
+    numberInStock: Joi.number().min(0).max(255).required(),
+    dailyRentalRate: Joi.number().min(0).max(255).required()
+})
+
+const validate = (schema, req) => schema.validate(req.body);
+
+
+
 
 module.exports = {
     movieSchema : movieSchema,

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {genreSchema} = require('../model/genreModel');
+const {genreSchema} = require('../model/genreSchema');
 
 const movieSchema = new mongoose.Schema({
     title : {

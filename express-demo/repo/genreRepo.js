@@ -3,7 +3,7 @@ const Genre = require('../model/genreModel');
 
 const getAllGenres = async () => await Genre.find();
 const getAllGenresCount = async () => await Genre.find().count();
-const getGenrebyID = async (id) => await Genre.find({id: id});
+const getGenrebyID = async (id) => await Genre.find({_id: id});
 const genreExists = async (name) => await Genre.find({name: name}).count();
 const genreExistsByID = async (id) => await Genre.find({id: id}).count();
 const updateGenreName = async (id, name) => await Genre.findOneAndUpdate({id:id}, {name: name}, {new: true});
@@ -16,6 +16,13 @@ const newGenre = async (id, name) => {
     return result;
 }
 
+const addGenre = async (req) => {
+    const genreObject = {id: 1, name: req.body.name};
+    const genre = new Genre(genreObject);
+    const result = await genre.save();
+    return result;
+}
+
 module.exports = {
     allGenres: getAllGenres,
     allGenresCount: getAllGenresCount,
@@ -23,6 +30,7 @@ module.exports = {
     genreExists: genreExists,
     genreExistsByID: genreExistsByID,
     newGenre: newGenre,
+    addGenre : addGenre,
     updateGenreName: updateGenreName,
     removeGenre: removeGenre
 }

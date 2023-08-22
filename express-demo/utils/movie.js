@@ -1,4 +1,4 @@
-const fields = ['title', 'genre', 'numberInStock', 'dailyRentalRate'];
+const fields = ['title', 'genreID', 'numberInStock', 'dailyRentalRate'];
 
 const getParamID = (req) => req.params.id;
 

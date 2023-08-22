@@ -5,6 +5,7 @@ const {
     deleteMovieRepoMethods
 } = require('../repo/movieRepo');
 const utils = require('../utils/movie');
+const {genreByID} = require('../services/genre');
 
 // Get Methods
 const getAllMovies = async () =>{
@@ -56,15 +57,20 @@ const getMovieByTitle = async (req) => {
 const saveNewMovie = async (req) => {
     try {
         const movieObject = utils.createMovieObject(req);
+        const genre = await genreByID(movieObject.genreID);
         const response = {statusCode: 400, message: 'Cannot Save Film'};
+        if (!genre) return response;
+        const doc = genre[0]._doc;
+        const genreDoc = {id: doc.id, name: doc.name};
+        movieObject.genre = genreDoc;
         const savedMovie = await saveMovie(movieObject);
         if (savedMovie){
             response.statusCode = 200,
-            response.message = saveMovie
+            response.message = savedMovie
         }
         return response;
     } catch (error) {
-        throw new Error ('Error Saving Film To Database');
+        throw new Error (error.message);
     }
 }
 

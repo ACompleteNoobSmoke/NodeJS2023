@@ -26,14 +26,23 @@ app.get('/:id', async (req, res) => {
     }
 })
 
+// app.post('/', async (req, res) => {
+//     try{
+//         const name = req.body.name;
+//         const exists = await genreRepo.genreExists(name);
+//         if (exists && exists > 0)  return res.status(400).send(`${name} Already Exists In Database`);
+//         const genreLength = await genreRepo.allGenresCount();
+//         const id = genreLength + 1;
+//         const result = await genreRepo.newGenre(id, name);
+//         res.status(200).send(result);
+//     }catch(error){
+//         return res.status(400).send(error.message);
+//     }
+// })
+
 app.post('/', async (req, res) => {
     try{
-        const name = req.body.name;
-        const exists = await genreRepo.genreExists(name);
-        if (exists && exists > 0)  return res.status(400).send(`${name} Already Exists In Database`);
-        const genreLength = await genreRepo.allGenresCount();
-        const id = genreLength + 1;
-        const result = await genreRepo.newGenre(id, name);
+        const result = await genreRepo.addGenre(req);
         res.status(200).send(result);
     }catch(error){
         return res.status(400).send(error.message);

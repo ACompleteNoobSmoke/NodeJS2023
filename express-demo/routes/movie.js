@@ -25,11 +25,10 @@ app.get('/:id', async (req, res) => {
 
 app.post('/', async (req, res) => {
     try {
-        const {error} = movieValidate(schema.movieValidate, req);
+        const {error} = movieValidate(schema.movieSchema, req);
         if (error) return res.status(400).send(error.details[0].message);
         const {statusCode, message} = await movieService.saveNewMovie(req);
         res.status(statusCode).send(message);
-        res.status
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -48,7 +47,7 @@ app.delete('/', async (req, res) => {
     try {
         const {error} = movieValidate(schema.titleSchema, req);
         if (error) return res.status(404).send(error.details[0].message);
-        const {statusCode, message} = await movieService.deleteMovieByID(req);
+        const {statusCode, message} = await movieService.deleteMovieByTitle(req);
         res.status(statusCode).send(message);
     } catch (error) {
         res.status(400).send(error.message);
